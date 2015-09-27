@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -39,7 +40,7 @@ public class EstadoBean implements Serializable {
 	public void setEstados(List<Estado> estados) {
 		this.estados = estados;
 	}
-	
+
 	public void salvar(){
 		try{
 			EstadoDAO estadoDAO = new EstadoDAO();
@@ -50,10 +51,7 @@ public class EstadoBean implements Serializable {
 			Messages.addGlobalError("Erro ao cadastrar o Estado");
 			erro.printStackTrace();
 		}
-		
-		
 		//Messages.addGlobalInfo("Estado: " + estado.getNome() + "Sigla: " + estado.getSigla());
-		
 	}
 
 	@PostConstruct
@@ -66,4 +64,18 @@ public class EstadoBean implements Serializable {
 			erro.printStackTrace();
 		}
 	}
+
+	public void excluir(ActionEvent evento) {
+		try{
+			estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
+			EstadoDAO estadoDAO = new EstadoDAO();
+			estadoDAO.Excluir(estado);
+			System.out.println("ERICK");
+			Messages.addGlobalInfo("Estado excluido com sucesso!");
+		}catch(RuntimeException erro){
+			Messages.addGlobalError("Erro ao exluir o Estado");
+			erro.printStackTrace();
+		}
+	}
+
 }
