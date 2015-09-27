@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Estados</title>
+</h:head>
+<h:body>
+	<p:growl id="mensagem"/>
+	<h:form id="formListagem">
+		<p:panel header="Estados - Listagem" id="panelListagem">
+			<p:dataTable emptyMessage="Nenhum registro encontrado" paginator="True" value="#{estadoBean.estados}"
+			var="estado">
+				
+				<f:facet name="header">
+					<p:commandButton value="Novo" oncomplete="PF('dlgEstados').show();" actionListener="#{estadoBean.novo}" 
+					update=":formCadastro:painel"/>
+				</f:facet>
+				<f:facet name="footer">
+					<p:commandButton value="Sair" />
+				</f:facet>
+				<p:column headerText="Nome">
+					<p:outputLabel value="#{estado.nome}" />
+				</p:column>
+				<p:column headerText="Sigla">
+					<p:outputLabel value="#{estado.sigla}" />
+				</p:column>
+				<p:column headerText="Opções">
+					
+				</p:column>		
+			</p:dataTable>
+		</p:panel>
+		
+	</h:form>
+	
+	<p:dialog header="Estados - Cadastro" widgetVar="dlgEstados" draggable="false" resizable="false" modal="true" closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid columns="2" id="painel">
+				<p:outputLabel value="Estado: " />
+				<p:inputText widgetVar="txtEstado" size="30" maxlength="20" value="#{estadoBean.estado.nome}"/>
+				<p:outputLabel value="Sigla: " />
+				<p:inputText widgetVar="txtSigla" size="30" maxlength="2" value="#{estadoBean.estado.sigla}"/>
+			</h:panelGrid>
+			<br/>
+			<center><h:panelGrid columns="2">
+				<p:commandButton value="Salvar" actionListener="#{estadoBean.salvar}" update=":mensagem :formListagem:panelListagem" 
+				oncomplete="PF('dlgEstados').hide();"/>
+				
+				<p:commandButton value="Cancelar" oncomplete="PF('dlgEstados').hide();"/>
+			</h:panelGrid></center>
+		</h:form>
+	</p:dialog>
+	
+</h:body>
+</html>
